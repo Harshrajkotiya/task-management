@@ -1,4 +1,5 @@
-const { admin, db } = require('../config/firebase');
+const { db } = require('../config/firebase');
+const { FieldValue } = require('firebase-admin/firestore');
 
 const taskController = {
   /**
@@ -57,16 +58,27 @@ const taskController = {
         tasksQuery = tasksQuery.where('assignedTo', '==', userId);
       }
 
-      const snapshot = await tasksQuery.orderBy('createdAt', 'desc').get();
-      const tasks = snapshot.docs.map(doc => ({
+      const snapshot = await tasksQuery.get();
+      const tasks = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
+      // Sort by createdAt desc in JS to avoid composite index requirement
+      tasks.sort((a, b) => {
+        const timeA = a.createdAt?.seconds || 0;
+        const timeB = b.createdAt?.seconds || 0;
+        return timeB - timeA;
+      });
+
       res.json(tasks);
     } catch (error) {
       console.error('Get tasks error:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error: ' + error.message,
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   },
 
@@ -129,7 +141,7 @@ const taskController = {
         };
         
         // Use array union to add to history or initialize if it doesn't exist
-        finalUpdates.history = admin.firestore.FieldValue.arrayUnion(historyEntry);
+        finalUpdates.history = FieldValue.arrayUnion(historyEntry);
       }
 
       finalUpdates.updatedAt = new Date();
@@ -224,7 +236,11 @@ const taskController = {
       res.json(users);
     } catch (error) {
       console.error('Get users error:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error: ' + error.message,
+        error: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   },
 };

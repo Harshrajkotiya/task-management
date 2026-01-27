@@ -66,7 +66,7 @@ function App() {
 
           {/* Default Route */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          
+
           {/* 404 */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

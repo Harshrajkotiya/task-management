@@ -1,15 +1,7 @@
-import React from 'react';
+import { LayoutDashboard, ListTodo, LogOut, Search } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import {
-  LayoutDashboard,
-  ClipboardList,
-  LogOut,
-  Search,
-  User as UserIcon,
-  ChevronDown,
-} from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/AuthContext';
 
 const MainLayout = ({ children }) => {
   const { user, logout } = useAuth();
@@ -24,18 +16,16 @@ const MainLayout = ({ children }) => {
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     ...(user?.role === 'admin'
-      ? [{ icon: ClipboardList, label: 'Tasks', path: '/tasks' }]
+      ? [{ icon: ListTodo, label: 'Tasks', path: '/tasks' }]
       : []),
   ];
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-72 bg-white flex flex-col z-20 shrink-0 border-r border-[#E6E6E6]">
-        <div className="p-10 mb-4">
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">
-            Task Management
-          </h1>
+      <aside className="w-64 bg-white border-r border-[#E6E6E6] flex flex-col z-20">
+        <div className="p-8">
+          <h1 className="text-xl font-bold text-[#111827]">Task Management</h1>
         </div>
 
         <nav className="flex-1 px-6 space-y-2">
@@ -44,11 +34,11 @@ const MainLayout = ({ children }) => {
               key={item.path}
               to={item.path}
               className={({ isActive }) => `
-                flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200 group
+                flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group
                 ${
                   isActive
-                    ? 'bg-[#F3F4FF] text-[#5D5CDE] font-bold'
-                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600'
+                    ? 'bg-[#F3F4F6] text-black'
+                    : 'text-gray-400 hover:bg-[#F3F4F6] hover:text-gray-600'
                 }
               `}
             >
@@ -78,7 +68,7 @@ const MainLayout = ({ children }) => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="h-20 flex items-center justify-between px-4 shrink-0 border-b border-[#E6E6E6]">
+        <header className="h-16 bg-white border-b border-[#E6E6E6] flex items-center justify-between px-10 shrink-0">
           {/* Search Bar */}
           <div className="relative w-[450px]">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -105,7 +95,7 @@ const MainLayout = ({ children }) => {
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 overflow-hidden">{children}</main>
+        <main className="flex-1 overflow-hidden p-4">{children}</main>
       </div>
     </div>
   );

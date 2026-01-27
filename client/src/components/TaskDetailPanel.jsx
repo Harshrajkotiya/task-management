@@ -43,7 +43,7 @@ const TaskDetailPanel = ({
     : 'Unknown';
 
   return (
-    <div className="bg-white border border-[#E6E6E6] rounded-2xl p-5 flex flex-col h-50 overflow-y-auto sticky top-4 animate-in fade-in duration-500 ">
+    <div className="bg-white border border-[#E6E6E6] rounded-2xl p-5 flex flex-col h-96 overflow-y-auto sticky top-4 animate-in fade-in duration-500 ">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-xl font-bold text-gray-900">Task Details</h2>
         <button
