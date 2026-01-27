@@ -12,8 +12,10 @@ app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
 const authRoutes = require('./routes/authRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 
 app.use('/api/auth', authRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.get('/', (req, res) => {
   res.send('Task Management API is running...');

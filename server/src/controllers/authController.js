@@ -8,7 +8,7 @@ const authController = {
    */
   signup: async (req, res) => {
     try {
-      const { email, password, displayName, role } = req.body;
+      const { email, password, username, role } = req.body;
 
       // Check if user already exists
       const userRef = db.collection('users').where('email', '==', email);
@@ -26,7 +26,7 @@ const authController = {
       const newUser = {
         email,
         password: hashedPassword,
-        displayName,
+        username,
         role: role || 'user', // Default to user
         createdAt: new Date(),
       };
@@ -42,7 +42,7 @@ const authController = {
 
       res.status(201).json({
         token,
-        user: { id: docRef.id, email, displayName, role: newUser.role }
+        user: { id: docRef.id, email, username, role: newUser.role }
       });
     } catch (error) {
       console.error('Signup error:', error);
@@ -86,7 +86,7 @@ const authController = {
         user: {
           id: userDoc.id,
           email: userData.email,
-          displayName: userData.displayName,
+          username: userData.username,
           role: userData.role
         }
       });
