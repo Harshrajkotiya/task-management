@@ -94,26 +94,26 @@ const taskController = {
         // Admin can update anything
         finalUpdates = { ...updates };
       } else {
-        // Regular user check
-        if (task.assignedTo !== userId) {
-          return res.status(403).json({ message: 'Access forbidden: You can only update your assigned tasks' });
+        // Regular user check: can only update tasks they created OR tasks assigned to them
+        if (task.createdBy !== userId && task.assignedTo !== userId) {
+          return res.status(403).json({ message: 'Access forbidden: You can only update tasks you created or are assigned to' });
         }
 
-        // User can ONLY update status
-        if (updates.status) {
-          const allowedStatuses = ['Pending', 'In Progress', 'Completed'];
-          if (!allowedStatuses.includes(updates.status)) {
-            return res.status(400).json({ message: 'Invalid status value' });
+        // If it's THEIR task (created by them), they can update anything
+        if (task.createdBy === userId) {
+          finalUpdates = { ...updates };
+        } 
+        // If it's ONLY assigned to them, they can ONLY update status
+        else if (task.assignedTo === userId) {
+          if (updates.status) {
+            const allowedStatuses = ['Pending', 'In Progress', 'Completed'];
+            if (!allowedStatuses.includes(updates.status)) {
+              return res.status(400).json({ message: 'Invalid status value' });
+            }
+            finalUpdates = { status: updates.status };
+          } else {
+            return res.status(400).json({ message: 'Users can only update the task status of tasks assigned to them' });
           }
-          finalUpdates = { status: updates.status };
-        } else {
-          return res.status(400).json({ message: 'Users can only update the task status' });
-        }
-        
-        // Ensure no other fields are updated by a regular user
-        const updateFields = Object.keys(updates);
-        if (updateFields.length > 1 || (updateFields.length === 1 && updateFields[0] !== 'status')) {
-             return res.status(403).json({ message: 'Regular users are only permitted to update the status field' });
         }
       }
 
@@ -144,6 +144,14 @@ const taskController = {
 
       if (!doc.exists) {
         return res.status(404).json({ message: 'Task not found' });
+      }
+
+      const task = doc.data();
+      const userId = req.user.id;
+      const userRole = req.user.role;
+
+      if (userRole !== 'admin' && task.createdBy !== userId) {
+        return res.status(403).json({ message: 'Access forbidden: You can only delete tasks you created' });
       }
 
       await docRef.delete();

@@ -17,9 +17,9 @@ router.get('/', taskController.getAllTasks);
 router.get('/:id', taskController.getTaskById);
 
 // @route   POST api/tasks
-// @desc    Create a new task (Admin only)
-// @access  Private (Admin)
-router.post('/', roleMiddleware(['admin']), taskController.createTask);
+// @desc    Create a new task
+// @access  Private
+router.post('/', taskController.createTask);
 
 // @route   PUT api/tasks/:id
 // @desc    Update task
@@ -27,9 +27,9 @@ router.post('/', roleMiddleware(['admin']), taskController.createTask);
 router.put('/:id', taskController.updateTask);
 
 // @route   DELETE api/tasks/:id
-// @desc    Delete task (Admin only)
-// @access  Private (Admin)
-router.delete('/:id', roleMiddleware(['admin']), taskController.deleteTask);
+// @desc    Delete task
+// @access  Private
+router.delete('/:id', taskController.deleteTask);
 
 // @route   GET api/tasks/users/all
 // @desc    Get all users (for display/assignment)

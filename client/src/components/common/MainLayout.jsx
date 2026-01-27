@@ -23,7 +23,7 @@ const MainLayout = ({ children }) => {
 
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: ClipboardList, label: 'Tasks', path: '/tasks' },
+    ...(user?.role === 'admin' ? [{ icon: ClipboardList, label: 'Tasks', path: '/tasks' }] : []),
   ];
 
   return (
