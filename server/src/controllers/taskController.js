@@ -1,4 +1,4 @@
-const { db } = require('../config/firebase');
+const { admin, db } = require('../config/firebase');
 
 const taskController = {
   /**
@@ -23,6 +23,10 @@ const taskController = {
         createdBy,
         createdAt: new Date(),
         updatedAt: new Date(),
+        history: [{
+          action: `Task created by ${req.user.username || 'Admin'}`,
+          timestamp: new Date()
+        }]
       };
 
       const docRef = await db.collection('tasks').add(newTask);
@@ -117,13 +121,26 @@ const taskController = {
         }
       }
 
+      // Tracking history if status changes
+      if (finalUpdates.status && finalUpdates.status !== task.status) {
+        const historyEntry = {
+          action: `Status updated to ${finalUpdates.status} by ${req.user.username || 'User'}`,
+          timestamp: new Date()
+        };
+        
+        // Use array union to add to history or initialize if it doesn't exist
+        finalUpdates.history = admin.firestore.FieldValue.arrayUnion(historyEntry);
+      }
+
       finalUpdates.updatedAt = new Date();
       await docRef.update(finalUpdates);
 
+      // Fetch the updated document to return the full state including history
+      const updatedDoc = await docRef.get();
+      
       res.json({
-        id,
-        ...task,
-        ...finalUpdates,
+        id: updatedDoc.id,
+        ...updatedDoc.data(),
       });
     } catch (error) {
       console.error('Update task error:', error);

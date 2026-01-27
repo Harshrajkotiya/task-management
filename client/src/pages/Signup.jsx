@@ -56,7 +56,9 @@ const Signup = () => {
       {step === 1 ? (
         <>
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Create your account
+            </h1>
             <p className="text-gray-400 text-sm">
               Get started with task management in seconds.
             </p>
@@ -94,15 +96,16 @@ const Signup = () => {
             />
 
             <div className="pt-2">
-              <Button type="submit">
-                Create Account
-              </Button>
+              <Button type="submit">Create Account</Button>
             </div>
           </form>
 
           <div className="mt-8 text-center text-xs text-gray-400">
             Already have an account?{' '}
-            <Link to="/login" className="text-[#5D5CDE] hover:underline font-semibold">
+            <Link
+              to="/login"
+              className="text-[#5D5CDE] hover:underline font-semibold"
+            >
               Log in
             </Link>
           </div>
@@ -110,10 +113,12 @@ const Signup = () => {
       ) : (
         <div className="max-w-xl mx-auto">
           <div className="text-center mb-10">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Choose Your Role</h1>
+            <h1 className="text-xl font-bold text-gray-900 mb-2">
+              Choose Your Role
+            </h1>
             <p className="text-gray-400 text-xs text-center max-w-xs mx-auto">
-              Select how you want to use the dashboard. 
-              You can't change this later without admin support.
+              Select how you want to use the dashboard. You can't change this
+              later without admin support.
             </p>
           </div>
 
@@ -123,11 +128,15 @@ const Signup = () => {
               title="Admin"
               description="Create, assign, and manage tasks across all users."
               features={[
-                "Create, edit, and delete tasks",
-                "Assign tasks to users",
-                "View all tasks and users"
+                'Create, edit, and delete tasks',
+                'Assign tasks to users',
+                'View all tasks and users',
               ]}
-              buttonText={loading && formData.role === 'admin' ? "Signing up..." : "Continue as Admin"}
+              buttonText={
+                loading && formData.role === 'admin'
+                  ? 'Signing up...'
+                  : 'Continue as Admin'
+              }
               onSelect={() => handleSignup('admin')}
               disabled={loading}
             />
@@ -137,19 +146,23 @@ const Signup = () => {
               title="User"
               description="View and manage tasks assigned to you."
               features={[
-                "View assigned tasks",
-                "Update task status",
-                "Track your progress"
+                'View assigned tasks',
+                'Update task status',
+                'Track your progress',
               ]}
-              buttonText={loading && formData.role === 'user' ? "Signing up..." : "Continue as User"}
+              buttonText={
+                loading && formData.role === 'user'
+                  ? 'Signing up...'
+                  : 'Continue as User'
+              }
               onSelect={() => handleSignup('user')}
               disabled={loading}
             />
           </div>
-          
+
           <div className="text-center">
-            <button 
-              onClick={() => setStep(1)} 
+            <button
+              onClick={() => setStep(1)}
               className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
               disabled={loading}
             >

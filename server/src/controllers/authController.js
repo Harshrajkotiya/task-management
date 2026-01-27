@@ -35,7 +35,7 @@ const authController = {
 
       // Generate JWT
       const token = jwt.sign(
-        { id: docRef.id, email, role: newUser.role },
+        { id: docRef.id, email, role: newUser.role, username: newUser.username },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );
@@ -76,7 +76,7 @@ const authController = {
 
       // Generate JWT
       const token = jwt.sign(
-        { id: userDoc.id, email: userData.email, role: userData.role },
+        { id: userDoc.id, email: userData.email, role: userData.role, username: userData.username },
         process.env.JWT_SECRET,
         { expiresIn: '24h' }
       );

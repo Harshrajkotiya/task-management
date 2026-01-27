@@ -10,7 +10,7 @@ import Tasks from './pages/Tasks';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#F8F7FF]">
+      <div className="min-h-screen">
         <Routes>
           {/* Public Routes */}
           <Route
