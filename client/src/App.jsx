@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ToastContainer, toast } from 'react-toastify';
+import { useAuth } from './context/AuthContext';
+import { Activity } from 'lucide-react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user } = useAuth();
+  
+  const notify = () => toast.success("Toast is working!");
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+    <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
+      <div className="p-8">
+        <div className="flex items-center gap-3 mb-6">
+            <Activity className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-bold text-gray-800">Task Management Dashboard</h1>
+        </div>
+        
+        <p className="mb-4 text-lg">
+          Current User status: <span className="font-semibold">{user ? user.email : 'Not logged in'}</span>
         </p>
+        
+        <div className="p-6 bg-white shadow rounded-lg mb-6">
+          <p className="text-gray-600 mb-4">Tailwind CSS and Lucide Icons are ready.</p>
+          <button 
+            onClick={notify}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition flex items-center gap-2"
+          >
+            Test Toast
+          </button>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <ToastContainer position="top-right" autoClose={3000} />
+    </div>
+  );
 }
 
-export default App
+export default App;
