@@ -16,17 +16,15 @@ const RoleCard = ({
   return (
     <div
       onClick={!disabled ? onSelect : undefined}
-      className={`p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col h-full bg-white cursor-pointer ${
-        isSelected
+      className={`p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col h-full bg-white cursor-pointer ${isSelected
           ? 'border-[#5D5CDE] shadow-xl shadow-indigo-50'
           : 'border-gray-100 hover:border-gray-200 shadow-sm'
-      }`}
+        }`}
     >
       <div className="flex-grow">
         <h3
-          className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
-            isSelected ? 'text-[#5D5CDE]' : 'text-gray-900'
-          }`}
+          className={`text-2xl font-bold mb-2 transition-colors duration-300 ${isSelected ? 'text-[#5D5CDE]' : 'text-gray-900'
+            }`}
         >
           {title}
         </h3>
@@ -39,9 +37,8 @@ const RoleCard = ({
               className="flex items-center text-[10px] text-gray-500"
             >
               <span
-                className={`w-1.5 h-1.5 rounded-full mr-2 transition-colors duration-300 ${
-                  isSelected ? 'bg-[#5D5CDE]' : 'bg-gray-300'
-                }`}
+                className={`w-1.5 h-1.5 rounded-full mr-2 transition-colors duration-300 ${isSelected ? 'bg-[#5D5CDE]' : 'bg-gray-300'
+                  }`}
               ></span>
               {feature}
             </li>
@@ -51,7 +48,6 @@ const RoleCard = ({
 
       <Button
         variant={isSelected ? 'primary' : 'secondary'}
-        onClick={onSelect}
         className="!py-2.5 text-xs"
         disabled={disabled}
       >
