@@ -6,12 +6,27 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  process.env.CORS_ORIGIN,
+  "http://localhost:5173",
+  "http://localhost:3000"
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes('*')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
