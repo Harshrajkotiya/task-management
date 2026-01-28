@@ -40,6 +40,7 @@ const Signup = () => {
   };
 
   const handleSignup = async (role) => {
+    setFormData((prev) => ({ ...prev, role }));
     setLoading(true);
     try {
       await signup(formData.email, formData.password, formData.username, role);
@@ -138,6 +139,7 @@ const Signup = () => {
                   : 'Continue as Admin'
               }
               onSelect={() => handleSignup('admin')}
+              isSelected={formData.role === 'admin'}
               disabled={loading}
             />
 
@@ -156,6 +158,7 @@ const Signup = () => {
                   : 'Continue as User'
               }
               onSelect={() => handleSignup('user')}
+              isSelected={formData.role === 'user'}
               disabled={loading}
             />
           </div>

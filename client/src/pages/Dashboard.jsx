@@ -124,7 +124,7 @@ const Dashboard = () => {
   return (
     <MainLayout>
       <div
-        className={`flex h-full gap-8 relative overflow-hidden transition-all duration-300 ${isDetailDrawerOpen ? 'mr-[400px]' : ''}`}
+        className={`flex h-full gap-8 relative overflow-hidden transition-all duration-300 ${isDetailDrawerOpen && isAdmin ? 'mr-[400px]' : ''}`}
       >
         <div className="flex-1 space-y-10 animate-fade-in overflow-y-auto pr-4 custom-scrollbar">
           <PageHeader title="Dashboard" />
@@ -207,21 +207,44 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Task Detail Drawer */}
-        <div
-          className={`fixed top-0 right-0 h-full w-[400px] z-30 transition-transform duration-300 transform ${isDetailDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}
-        >
-          <TaskDetailPanel
-            task={selectedTask}
-            users={users}
-            isAdmin={isAdmin}
-            currentUser={user}
+        {/* Task Detail Drawer (Admin Only) */}
+        {isAdmin && (
+          <div
+            className={`fixed top-0 right-0 h-full w-[400px] z-30 transition-transform duration-300 transform ${isDetailDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          >
+            <TaskDetailPanel
+              task={selectedTask}
+              users={users}
+              isAdmin={isAdmin}
+              currentUser={user}
+              onClose={() => setIsDetailDrawerOpen(false)}
+              onUpdateStatus={() => setIsUpdateStatusModalOpen(true)}
+              onEdit={() => setIsEditModalOpen(true)}
+              onDelete={() => setIsDeleteModalOpen(true)}
+            />
+          </div>
+        )}
+
+        {/* Task Detail Modal (User Only) */}
+        {!isAdmin && (
+          <Modal
+            isOpen={isDetailDrawerOpen}
             onClose={() => setIsDetailDrawerOpen(false)}
-            onUpdateStatus={() => setIsUpdateStatusModalOpen(true)}
-            onEdit={() => setIsEditModalOpen(true)}
-            onDelete={() => handleDeleteTask(selectedTask.id)}
-          />
-        </div>
+            title="Task Details"
+          >
+            <TaskDetailPanel
+              task={selectedTask}
+              users={users}
+              isAdmin={isAdmin}
+              currentUser={user}
+              onClose={() => setIsDetailDrawerOpen(false)}
+              onUpdateStatus={() => setIsUpdateStatusModalOpen(true)}
+              onEdit={() => setIsEditModalOpen(true)}
+              onDelete={() => setIsDeleteModalOpen(true)}
+              showHeader={false}
+            />
+          </Modal>
+        )}
       </div>
 
       {/* Modals */}
