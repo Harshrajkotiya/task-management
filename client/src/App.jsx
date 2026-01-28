@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { ProtectedRoute, PublicRoute, AdminRoute } from './components/ProtectedRoute';
 import { UnauthorizedAccess } from './components/RoleBasedComponents';
 import Login from './pages/Login';
@@ -70,8 +69,6 @@ function App() {
           {/* 404 */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
-
-        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     </Router>
   );
