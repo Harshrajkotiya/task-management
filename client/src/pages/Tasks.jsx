@@ -129,8 +129,8 @@ const Tasks = () => {
                 }}
               />
             </div>
-            {/* Detail Section */}
-            {isDetailOpen && (
+            {/* Detail Section (Admin Only - Panel) */}
+            {isAdmin && isDetailOpen && (
               <div
                 className={`right-0 h-full w-[400px] z-30 transition-transform duration-300 transform ${isDetailOpen ? 'translate-x-0' : 'translate-x-full'}`}
               >
@@ -149,6 +149,27 @@ const Tasks = () => {
           </div>
         </div>
       </div>
+
+      {/* Detail Modal (User Only) */}
+      {!isAdmin && (
+        <Modal
+          isOpen={isDetailOpen}
+          onClose={() => setIsDetailOpen(false)}
+          title="Task Details"
+        >
+          <TaskDetailPanel
+            task={selectedTask}
+            users={users}
+            isAdmin={isAdmin}
+            currentUser={user}
+            onClose={() => setIsDetailOpen(false)}
+            onUpdateStatus={() => setIsUpdateStatusModalOpen(true)}
+            onEdit={() => setIsEditModalOpen(true)}
+            onDelete={() => setIsDeleteModalOpen(true)}
+            showHeader={false}
+          />
+        </Modal>
+      )}
       <Modal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
