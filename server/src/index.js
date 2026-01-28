@@ -7,16 +7,9 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = [process.env.CORS_ORIGIN, "http://localhost:5173", "http://localhost:3000"].filter(Boolean);
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: process.env.CORS_ORIGIN || '*',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 204
 };
 
