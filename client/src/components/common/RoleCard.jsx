@@ -15,10 +15,10 @@ const RoleCard = ({
 
   return (
     <div
-      onClick={!disabled ? onSelect : undefined}
+      // onClick={!disabled ? onSelect : undefined}
       className={`p-6 rounded-2xl border-2 transition-all duration-300 flex flex-col h-full bg-white cursor-pointer ${isSelected
-          ? 'border-[#5D5CDE] shadow-xl shadow-indigo-50'
-          : 'border-gray-100 hover:border-gray-200 shadow-sm'
+        ? 'border-[#5D5CDE] shadow-xl shadow-indigo-50'
+        : 'border-gray-100 hover:border-gray-200 shadow-sm'
         }`}
     >
       <div className="flex-grow">
@@ -48,6 +48,7 @@ const RoleCard = ({
 
       <Button
         variant={isSelected ? 'primary' : 'secondary'}
+        onClick={onSelect}
         className="!py-2.5 text-xs"
         disabled={disabled}
       >
