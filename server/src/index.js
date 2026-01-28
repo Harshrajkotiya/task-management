@@ -28,8 +28,10 @@ app.use(cors({
   credentials: true,
 }));
 
-// 🔥 REQUIRED FOR VERCEL PREFLIGHT
-app.options("*", cors());
+// CORS middleware already handles preflight when applied with app.use
+// No need for separate app.options("*") which causes crashes in Express 5
+
+
 
 app.use(express.json());
 
@@ -43,7 +45,13 @@ app.get("/", (req, res) => {
   res.send("Task Management API is running...");
 });
 
-// ❌ REMOVE app.listen()
-// Vercel handles the server
+// Start server only if not running on Vercel
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
 
 module.exports = app;
+
