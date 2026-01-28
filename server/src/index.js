@@ -6,15 +6,29 @@ dotenv.config();
 
 const app = express();
 
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204
-};
+const allowedOrigins = [
+  "http://localhost:5173/",
+  process.env.CORS_ORIGIN,
+];
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow mobile apps / server-to-server / Postman
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
+
 app.use(express.json());
+app.options("*", cors());
 
 const PORT = process.env.PORT || 5000;
 
